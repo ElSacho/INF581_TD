@@ -9,7 +9,7 @@ info = {
         'Alias' : 'Sacho', # optional
 }
 
-np.random.seed(1)
+#np.random.seed(1)
 
 class Environment():
 
@@ -112,7 +112,7 @@ class Environment():
         '''
         i,j = self._tile2cell(s)
         p = np.zeros(self.d_x)
-        p[0] = self.theta_0 * (self.G[i,j] == 1 or self.G[i,j] == 3) 
+        p[0] = self.theta_0 * (self.G[i,j] == 1 or self.G[i,j] == 3)
         p[1] = self.theta_1 * (self.G[i,j] == 2 or self.G[i,j] == 3) 
         return p
 
@@ -201,7 +201,7 @@ class Environment():
             ---------------------------------------------
         '''
 
-        fig, ax = plt.subplots(figsize=[8,4],dpi=300)
+        fig, ax = plt.subplots(figsize=[4,2],dpi=300)
 
         # Agent starting position
 
@@ -263,31 +263,6 @@ class Environment():
         plt.tight_layout()
         return fig, ax
     
-    def move(self, y, tabY, T=5):
-        if len(y) == T:
-            tabY.append(y.copy())
-            y.pop()
-            return 
-        
-        _y = y[len(y)-1]
-        d = self.P_Yy(_y)
-        y_ = np.array(list(d.keys()))
-        
-        for deplacement in y_:
-            l = len(y)
-            y.append(deplacement)
-            self.move(y,tabY ,T)
-            y = y[:l]
-    
-    def gen_All_path(self, T=5):
-        tabY = []
-        
-        for y_1 in self.s_entries:
-            self.move([y_1],tabY)
-        
-        return tabY
-    
-   
 
 def path2str(y):
     ''' Convert list(int) into a string '''
@@ -299,10 +274,6 @@ def str2path(y_str):
 
 
 class Agent():
-
-    # TODO: Add any more auxilliary functions you might need here 
-    def __init__(self):
-        self.d = {}
 
     def P_Ho(self,x,env):
         '''
@@ -332,13 +303,8 @@ class Agent():
         
         d = {}
         # idee : faire tous les y possibles, pour chaque y ajouter la proba calculee sur la feuille puis normaliser le tout 
-        #for y in tousLesYPossibles:
-            # v *= env.P_Y(y[0])
-            # for i in range(1,5):
-               # v *= env.P_Yy(y[i+1],y[i])*env.P_Xy(x[i+1],x[i+1])
-            # d[y] = v
-            
-        tabY = env.gen_All_path()
+                  
+        tabY = self.gen_All_path(env)
         for y in tabY:
             v = 1/len(env.s_entries)
           # print(v)
@@ -372,6 +338,30 @@ class Agent():
        # print(d)
         
         return d
+    
+    def move(self, env, y, tabY, T=5):
+        if len(y) == T:
+            tabY.append(y.copy())
+            y.pop()
+            return 
+        
+        _y = y[len(y)-1]
+        d = env.P_Yy(_y)
+        y_ = np.array(list(d.keys()))
+        
+        for deplacement in y_:
+            l = len(y)
+            y.append(deplacement)
+            self.move(env, y,tabY ,T)
+            y = y[:l]
+    
+    def gen_All_path(self, env, T=5):
+        tabY = []
+        
+        for y_1 in env.s_entries:
+            self.move(env, [y_1],tabY)
+        
+        return tabY
     
     def P_Yo(self,d_joint):
         '''
@@ -428,8 +418,7 @@ class Agent():
         '''
         d_act = {}
         
-        for a in range(1,26):
-            # a = 0 ==> on ne fait rien
+        for a in range(1,env.n_cols*env.n_rows+1):
             r  = 0
             for s in d_marginal.keys():
                 r += d_marginal[s] * env.rwd(a,s)
