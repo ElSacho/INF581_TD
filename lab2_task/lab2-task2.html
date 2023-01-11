@@ -1,0 +1,741 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.10.0" />
+<title>lab2-task2 API documentation</title>
+<meta name="description" content="" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS_CHTML" integrity="sha256-kZafAc6mZvK3W3v1pHOcUix30OHQN6pU/NO2oFkqZVw=" crossorigin></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>lab2-task2</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">import numpy as np
+import copy
+from sklearn.linear_model import LogisticRegression
+
+# TODO (optional) import any additional libraries https://docs.python.org/3/library/ 
+
+info = {
+        # TODO replace the following Email with your own
+        &#39;Email&#39; : &#39;firstname.lastname@polytechnique.edu&#39;,
+        &#39;Alias&#39; : &#39;Anonymous&#39;, # optional (used only in &#39;Leaderboard&#39; display)
+}
+
+def vec2str(y):
+    &#39;&#39;&#39; Convert numpy arrray y into string &#39;&#39;&#39;
+    return str(y.astype(int))
+
+class ClassifierChain() :
+    &#34;&#34;&#34; Classifier Chain
+
+        See also: https://scikit-learn.org/stable/modules/generated/sklearn.multioutput.ClassifierChain.html
+
+        Parameters
+        ----------
+        base_estimator : object
+            The ready-to-fit base (single-label) classifier
+
+        Attributes
+        ----------
+        n_labels : int
+            The number of labels 
+        estimators_ : object
+            The classifiers that make up the chain (there are `n_labels` of them)
+
+    &#34;&#34;&#34;
+
+    base_estimator = None
+    estimators_ = None
+    n_labels = -1
+
+    def __init__(self, base_estimator=LogisticRegression()):
+        self.base_estimator = base_estimator
+
+    def fit(self, X, Y):
+        &#34;&#34;&#34; Train the chain.
+
+        Parameters
+        ----------
+
+        X : array_like(float, ndim=2) of shape (n_samples,n_features)
+            The input data.
+        Y : array_like(float, ndim=2) of shape (n_samples,n_labels)
+            The target values.
+
+        Returns
+        -------
+        self : object
+            Returns a fitted instance.
+
+        &#34;&#34;&#34;
+        n_samples, self.n_labels = Y.shape
+        n_labels = self.n_labels
+        n_samples, n_features = X.shape
+
+        # Copy the base model for each label ...
+        self.estimators_ = [copy.deepcopy(self.base_estimator) for j in range(n_labels)]
+        # Prepare the feature and target space(s)
+        XY = np.zeros((n_samples, n_features + n_labels-1))
+        XY[:,0:n_features] = X
+        XY[:,n_features:] = Y[:,0:n_labels-1]
+        # Train each model.
+        for j in range(self.n_labels):
+            self.estimators_[j].fit(XY[:,0:n_features+j], Y[:,j])
+
+        return self
+
+    def epsilon_approximate_tree_inference(self, x, epsilon=0.5):
+        &#34;&#34;&#34; Inference via epsilon-approximate tree-search.
+
+            Provide prediction vector y for input x, via epsilon-approximate 
+            exploration of the probability tree.
+
+            Returns the search tree, as well as final estimate y and its associated probability p. 
+
+            Parameters
+            ----------
+
+            x : array_like (float, ndim=1) of length n_features 
+                test instance
+
+            epsilon : float
+                the value of epsilon considered for the search
+
+
+            Returns
+            -------
+
+            nodes : dict(str,float)
+                where dict[vec2str(y)] = P(y | x)
+                
+            edges : list(tuple(str, str, float))
+                where each tuple (parent node id, child node id, edge value)
+
+            y : array_like(int,ndim=1) array of length n_labels 
+                the prediction for x 
+                (i.e., the goal node)
+
+            p : float
+                the posterior probability P(y | x)
+                i.e., the path value associated with the goal node
+        &#34;&#34;&#34;
+
+        ###############################################
+        # TODO: Rewrite this function
+        #       Currently this function is implemented as greedy-search
+        #       (equivalent to epsilon &gt;= 0.5), and you should re-write
+        #       it so that it works for any epsilon (between 0 and 1).
+        ###############################################
+
+        nodes = {}                   # nodes map to corresponding value
+        edges = []                   # edges are a list of tuples
+        y = np.zeros(self.n_labels)  # an array to store labels (best path)
+        p = 1.                       # path score &#39;so far&#39;
+        xy = x.reshape(1,-1)         # array of shape (n_labels,n_features) is required by sklearn
+
+        for j in range(self.n_labels):
+            if j&gt;0:
+                # stack the previous y as an additional feature
+                xy = np.column_stack([xy, y[j-1]])
+            # P_j := P(y[j]|x,y[1],...,y[j-1])
+            P_j = self.estimators_[j].predict_proba(xy)[0] # (N.B. [0], because it is the first and only row)
+            k = np.argmax(P_j)
+            y[j] = k
+            p = p * P_j[k]
+
+            branch = (vec2str(y[0:j]),vec2str(y[0:j+1]),P_j[k])
+            edges.append(branch)
+            nodes[vec2str(y[0:j+1])] = p
+
+        return nodes,edges,y.astype(int),p
+
+
+#  
+
+    def predict(self, X, epsilon=0.5):
+        &#34;&#34;&#34; Predict labels Y for inputs X.
+
+        That is, to return 
+
+        $$
+            \\mathsf{argmax}_{\\mathbf{Y}} P(\\mathbf{Y} | \\mathbf{X})
+        $$
+
+        Parameters
+        ----------
+        X : array_like(float, ndim=2) of shape (n_samples, n_features)
+            matrix of test instances
+
+        Returns
+        -------
+        Y : array_like(float, ndim=2) of shape (n_samples, n_labels)
+            matrix of corresponding label estimates
+
+        &#34;&#34;&#34;
+
+        n_samples,n_features = X.shape
+        Yp = np.zeros((n_samples,self.n_labels))
+
+        for n in range(n_samples):
+            x = X[n]
+            nodes,edges,yp,w_max = self.epsilon_approximate_tree_inference(x, epsilon)
+            Yp[n] = yp
+
+        return Yp
+
+if __name__ == &#34;__main__&#34;:
+    # -------------------------------------------------------------------- 
+    # Main script
+    # -------------------------------------------------------------------- 
+    # Feel free to move this code into a jupyter notebook (if you prefer)
+    # and in that case, don&#39;t forget to uncomment the following line: 
+    # from classifier_chains import ClassifierChain
+    # 
+    # You can make changes to this code as you wish in order to test 
+    # your implementation.
+    # --------------------------------------------------------------------
+
+    # Evaluation parameters
+    random_state = 0    
+    eps = 0.2      
+    i_test = 5
+    np.random.seed(random_state)    
+
+    # Load the dataset, shuffle, and split it.
+    from sklearn.model_selection import train_test_split
+    m = 6
+    XY = np.genfromtxt(&#39;music.csv&#39;, skip_header=1, delimiter=&#34;,&#34;)
+    n,DL = XY.shape
+    X = XY[:,m:DL]
+    Y = XY[:,0:m]
+    n_test = 10
+    n_train = n-n_test
+    X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=n_test, random_state=random_state)
+
+    # Instantiate and train a classifier chain 
+    cc = ClassifierChain(LogisticRegression(solver=&#39;liblinear&#39;))
+    cc.fit(X_train, Y_train)
+
+    # Obtain predictions, and calculate errors
+    Y_pred = cc.predict(X_test,eps)
+    E = (Y_pred != Y_test) * 1
+    print(&#34;0/1 loss on test set:     &#34;, np.sum(E.sum(axis=1)&gt;0)/n_test)
+    print(&#34;Hamming loss on test set: &#34;, np.mean(E))
+
+    # Obtain paths explored to obtain each prediction
+    # * nodes: a dict mapping node label (str) to associated value (float)
+    # * edges: a list of tuples of tail node (str), head node (str), and associated edge value (float)
+    # * y_argmax: the chosen path
+    # * p_max: the value of the chosen path
+    x_test = X_test[i_test]
+    nodes, edges, y_argmax, p_max = cc.epsilon_approximate_tree_inference(x_test,eps)
+
+    # Print the inferred path and its probability
+    print(f&#34;y_argmax = {y_argmax}&#34;)
+    print(f&#34;p_max = {p_max:3.2f}&#34;)
+
+    # Show the search tree
+    from graphviz import Digraph
+    G = Digraph(comment=&#39;Search-Tree Inference for Classifier Chains&#39;)
+    G.node_attr.update(shape=&#39;box&#39;, style=&#39;rounded&#39;)
+    for n in nodes.keys():
+        if n == str(y_argmax) and nodes[n] == p_max:
+            G.node(n,label=&#39;&#39;&#39;&lt;{&lt;B&gt;%s&lt;/B&gt; | %3.2f}&gt;&#39;&#39;&#39; % (n,nodes[n]),shape=&#39;record&#39;,fontcolor=&#39;blue&#39;)
+        else:
+            G.node(n,label=&#39;&#39;&#39;&lt;{&lt;B&gt;%s&lt;/B&gt; | %3.2f}&gt;&#39;&#39;&#39; % (n,nodes[n]),shape=&#39;record&#39;)
+    for e in edges:
+        G.edge(e[0],e[1],&#34;%3.2f&#34; % e[2])
+    G.render(engine=&#39;dot&#39;, format=&#39;pdf&#39;, outfile=&#39;inference.pdf&#39;, view=True)</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="lab2-task2.vec2str"><code class="name flex">
+<span>def <span class="ident">vec2str</span></span>(<span>y)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Convert numpy arrray y into string</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def vec2str(y):
+    &#39;&#39;&#39; Convert numpy arrray y into string &#39;&#39;&#39;
+    return str(y.astype(int))</code></pre>
+</details>
+</dd>
+</dl>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="lab2-task2.ClassifierChain"><code class="flex name class">
+<span>class <span class="ident">ClassifierChain</span></span>
+<span>(</span><span>base_estimator=LogisticRegression())</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Classifier Chain</p>
+<p>See also: <a href="https://scikit-learn.org/stable/modules/generated/sklearn.multioutput.ClassifierChain.html">https://scikit-learn.org/stable/modules/generated/sklearn.multioutput.ClassifierChain.html</a></p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>base_estimator</code></strong> :&ensp;<code>object</code></dt>
+<dd>The ready-to-fit base (single-label) classifier</dd>
+</dl>
+<h2 id="attributes">Attributes</h2>
+<dl>
+<dt><strong><code>n_labels</code></strong> :&ensp;<code>int</code></dt>
+<dd>The number of labels</dd>
+<dt><strong><code>estimators_</code></strong> :&ensp;<code>object</code></dt>
+<dd>The classifiers that make up the chain (there are <code>n_labels</code> of them)</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class ClassifierChain() :
+    &#34;&#34;&#34; Classifier Chain
+
+        See also: https://scikit-learn.org/stable/modules/generated/sklearn.multioutput.ClassifierChain.html
+
+        Parameters
+        ----------
+        base_estimator : object
+            The ready-to-fit base (single-label) classifier
+
+        Attributes
+        ----------
+        n_labels : int
+            The number of labels 
+        estimators_ : object
+            The classifiers that make up the chain (there are `n_labels` of them)
+
+    &#34;&#34;&#34;
+
+    base_estimator = None
+    estimators_ = None
+    n_labels = -1
+
+    def __init__(self, base_estimator=LogisticRegression()):
+        self.base_estimator = base_estimator
+
+    def fit(self, X, Y):
+        &#34;&#34;&#34; Train the chain.
+
+        Parameters
+        ----------
+
+        X : array_like(float, ndim=2) of shape (n_samples,n_features)
+            The input data.
+        Y : array_like(float, ndim=2) of shape (n_samples,n_labels)
+            The target values.
+
+        Returns
+        -------
+        self : object
+            Returns a fitted instance.
+
+        &#34;&#34;&#34;
+        n_samples, self.n_labels = Y.shape
+        n_labels = self.n_labels
+        n_samples, n_features = X.shape
+
+        # Copy the base model for each label ...
+        self.estimators_ = [copy.deepcopy(self.base_estimator) for j in range(n_labels)]
+        # Prepare the feature and target space(s)
+        XY = np.zeros((n_samples, n_features + n_labels-1))
+        XY[:,0:n_features] = X
+        XY[:,n_features:] = Y[:,0:n_labels-1]
+        # Train each model.
+        for j in range(self.n_labels):
+            self.estimators_[j].fit(XY[:,0:n_features+j], Y[:,j])
+
+        return self
+
+    def epsilon_approximate_tree_inference(self, x, epsilon=0.5):
+        &#34;&#34;&#34; Inference via epsilon-approximate tree-search.
+
+            Provide prediction vector y for input x, via epsilon-approximate 
+            exploration of the probability tree.
+
+            Returns the search tree, as well as final estimate y and its associated probability p. 
+
+            Parameters
+            ----------
+
+            x : array_like (float, ndim=1) of length n_features 
+                test instance
+
+            epsilon : float
+                the value of epsilon considered for the search
+
+
+            Returns
+            -------
+
+            nodes : dict(str,float)
+                where dict[vec2str(y)] = P(y | x)
+                
+            edges : list(tuple(str, str, float))
+                where each tuple (parent node id, child node id, edge value)
+
+            y : array_like(int,ndim=1) array of length n_labels 
+                the prediction for x 
+                (i.e., the goal node)
+
+            p : float
+                the posterior probability P(y | x)
+                i.e., the path value associated with the goal node
+        &#34;&#34;&#34;
+
+        ###############################################
+        # TODO: Rewrite this function
+        #       Currently this function is implemented as greedy-search
+        #       (equivalent to epsilon &gt;= 0.5), and you should re-write
+        #       it so that it works for any epsilon (between 0 and 1).
+        ###############################################
+
+        nodes = {}                   # nodes map to corresponding value
+        edges = []                   # edges are a list of tuples
+        y = np.zeros(self.n_labels)  # an array to store labels (best path)
+        p = 1.                       # path score &#39;so far&#39;
+        xy = x.reshape(1,-1)         # array of shape (n_labels,n_features) is required by sklearn
+
+        for j in range(self.n_labels):
+            if j&gt;0:
+                # stack the previous y as an additional feature
+                xy = np.column_stack([xy, y[j-1]])
+            # P_j := P(y[j]|x,y[1],...,y[j-1])
+            P_j = self.estimators_[j].predict_proba(xy)[0] # (N.B. [0], because it is the first and only row)
+            k = np.argmax(P_j)
+            y[j] = k
+            p = p * P_j[k]
+
+            branch = (vec2str(y[0:j]),vec2str(y[0:j+1]),P_j[k])
+            edges.append(branch)
+            nodes[vec2str(y[0:j+1])] = p
+
+        return nodes,edges,y.astype(int),p
+
+
+#  
+
+    def predict(self, X, epsilon=0.5):
+        &#34;&#34;&#34; Predict labels Y for inputs X.
+
+        That is, to return 
+
+        $$
+            \\mathsf{argmax}_{\\mathbf{Y}} P(\\mathbf{Y} | \\mathbf{X})
+        $$
+
+        Parameters
+        ----------
+        X : array_like(float, ndim=2) of shape (n_samples, n_features)
+            matrix of test instances
+
+        Returns
+        -------
+        Y : array_like(float, ndim=2) of shape (n_samples, n_labels)
+            matrix of corresponding label estimates
+
+        &#34;&#34;&#34;
+
+        n_samples,n_features = X.shape
+        Yp = np.zeros((n_samples,self.n_labels))
+
+        for n in range(n_samples):
+            x = X[n]
+            nodes,edges,yp,w_max = self.epsilon_approximate_tree_inference(x, epsilon)
+            Yp[n] = yp
+
+        return Yp</code></pre>
+</details>
+<h3>Class variables</h3>
+<dl>
+<dt id="lab2-task2.ClassifierChain.base_estimator"><code class="name">var <span class="ident">base_estimator</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="lab2-task2.ClassifierChain.estimators_"><code class="name">var <span class="ident">estimators_</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="lab2-task2.ClassifierChain.n_labels"><code class="name">var <span class="ident">n_labels</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="lab2-task2.ClassifierChain.epsilon_approximate_tree_inference"><code class="name flex">
+<span>def <span class="ident">epsilon_approximate_tree_inference</span></span>(<span>self, x, epsilon=0.5)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Inference via epsilon-approximate tree-search.</p>
+<p>Provide prediction vector y for input x, via epsilon-approximate
+exploration of the probability tree.</p>
+<p>Returns the search tree, as well as final estimate y and its associated probability p. </p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>x</code></strong> :&ensp;<code>array_like (float, ndim=1)</code> of <code>length n_features </code></dt>
+<dd>test instance</dd>
+<dt><strong><code>epsilon</code></strong> :&ensp;<code>float</code></dt>
+<dd>the value of epsilon considered for the search</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><strong><code>nodes</code></strong> :&ensp;<code>dict(str,float)</code></dt>
+<dd>where dict[vec2str(y)] = P(y | x)</dd>
+<dt><strong><code>edges</code></strong> :&ensp;<code>list(tuple(str, str, float))</code></dt>
+<dd>where each tuple (parent node id, child node id, edge value)</dd>
+<dt><strong><code>y</code></strong> :&ensp;<code>array_like(int,ndim=1) array</code> of <code>length n_labels </code></dt>
+<dd>the prediction for x
+(i.e., the goal node)</dd>
+<dt><strong><code>p</code></strong> :&ensp;<code>float</code></dt>
+<dd>the posterior probability P(y | x)
+i.e., the path value associated with the goal node</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def epsilon_approximate_tree_inference(self, x, epsilon=0.5):
+    &#34;&#34;&#34; Inference via epsilon-approximate tree-search.
+
+        Provide prediction vector y for input x, via epsilon-approximate 
+        exploration of the probability tree.
+
+        Returns the search tree, as well as final estimate y and its associated probability p. 
+
+        Parameters
+        ----------
+
+        x : array_like (float, ndim=1) of length n_features 
+            test instance
+
+        epsilon : float
+            the value of epsilon considered for the search
+
+
+        Returns
+        -------
+
+        nodes : dict(str,float)
+            where dict[vec2str(y)] = P(y | x)
+            
+        edges : list(tuple(str, str, float))
+            where each tuple (parent node id, child node id, edge value)
+
+        y : array_like(int,ndim=1) array of length n_labels 
+            the prediction for x 
+            (i.e., the goal node)
+
+        p : float
+            the posterior probability P(y | x)
+            i.e., the path value associated with the goal node
+    &#34;&#34;&#34;
+
+    ###############################################
+    # TODO: Rewrite this function
+    #       Currently this function is implemented as greedy-search
+    #       (equivalent to epsilon &gt;= 0.5), and you should re-write
+    #       it so that it works for any epsilon (between 0 and 1).
+    ###############################################
+
+    nodes = {}                   # nodes map to corresponding value
+    edges = []                   # edges are a list of tuples
+    y = np.zeros(self.n_labels)  # an array to store labels (best path)
+    p = 1.                       # path score &#39;so far&#39;
+    xy = x.reshape(1,-1)         # array of shape (n_labels,n_features) is required by sklearn
+
+    for j in range(self.n_labels):
+        if j&gt;0:
+            # stack the previous y as an additional feature
+            xy = np.column_stack([xy, y[j-1]])
+        # P_j := P(y[j]|x,y[1],...,y[j-1])
+        P_j = self.estimators_[j].predict_proba(xy)[0] # (N.B. [0], because it is the first and only row)
+        k = np.argmax(P_j)
+        y[j] = k
+        p = p * P_j[k]
+
+        branch = (vec2str(y[0:j]),vec2str(y[0:j+1]),P_j[k])
+        edges.append(branch)
+        nodes[vec2str(y[0:j+1])] = p
+
+    return nodes,edges,y.astype(int),p</code></pre>
+</details>
+</dd>
+<dt id="lab2-task2.ClassifierChain.fit"><code class="name flex">
+<span>def <span class="ident">fit</span></span>(<span>self, X, Y)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Train the chain.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>X</code></strong> :&ensp;<code>array_like(float, ndim=2)</code> of <code>shape (n_samples,n_features)</code></dt>
+<dd>The input data.</dd>
+<dt><strong><code>Y</code></strong> :&ensp;<code>array_like(float, ndim=2)</code> of <code>shape (n_samples,n_labels)</code></dt>
+<dd>The target values.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><strong><code>self</code></strong> :&ensp;<code>object</code></dt>
+<dd>Returns a fitted instance.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def fit(self, X, Y):
+    &#34;&#34;&#34; Train the chain.
+
+    Parameters
+    ----------
+
+    X : array_like(float, ndim=2) of shape (n_samples,n_features)
+        The input data.
+    Y : array_like(float, ndim=2) of shape (n_samples,n_labels)
+        The target values.
+
+    Returns
+    -------
+    self : object
+        Returns a fitted instance.
+
+    &#34;&#34;&#34;
+    n_samples, self.n_labels = Y.shape
+    n_labels = self.n_labels
+    n_samples, n_features = X.shape
+
+    # Copy the base model for each label ...
+    self.estimators_ = [copy.deepcopy(self.base_estimator) for j in range(n_labels)]
+    # Prepare the feature and target space(s)
+    XY = np.zeros((n_samples, n_features + n_labels-1))
+    XY[:,0:n_features] = X
+    XY[:,n_features:] = Y[:,0:n_labels-1]
+    # Train each model.
+    for j in range(self.n_labels):
+        self.estimators_[j].fit(XY[:,0:n_features+j], Y[:,j])
+
+    return self</code></pre>
+</details>
+</dd>
+<dt id="lab2-task2.ClassifierChain.predict"><code class="name flex">
+<span>def <span class="ident">predict</span></span>(<span>self, X, epsilon=0.5)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Predict labels Y for inputs X.</p>
+<p>That is, to return </p>
+<p><span><span class="MathJax_Preview">
+\mathsf{argmax}_{\mathbf{Y}} P(\mathbf{Y} | \mathbf{X})
+</span><script type="math/tex; mode=display">
+\mathsf{argmax}_{\mathbf{Y}} P(\mathbf{Y} | \mathbf{X})
+</script></span></p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>X</code></strong> :&ensp;<code>array_like(float, ndim=2)</code> of <code>shape (n_samples, n_features)</code></dt>
+<dd>matrix of test instances</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><strong><code>Y</code></strong> :&ensp;<code>array_like(float, ndim=2)</code> of <code>shape (n_samples, n_labels)</code></dt>
+<dd>matrix of corresponding label estimates</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def predict(self, X, epsilon=0.5):
+    &#34;&#34;&#34; Predict labels Y for inputs X.
+
+    That is, to return 
+
+    $$
+        \\mathsf{argmax}_{\\mathbf{Y}} P(\\mathbf{Y} | \\mathbf{X})
+    $$
+
+    Parameters
+    ----------
+    X : array_like(float, ndim=2) of shape (n_samples, n_features)
+        matrix of test instances
+
+    Returns
+    -------
+    Y : array_like(float, ndim=2) of shape (n_samples, n_labels)
+        matrix of corresponding label estimates
+
+    &#34;&#34;&#34;
+
+    n_samples,n_features = X.shape
+    Yp = np.zeros((n_samples,self.n_labels))
+
+    for n in range(n_samples):
+        x = X[n]
+        nodes,edges,yp,w_max = self.epsilon_approximate_tree_inference(x, epsilon)
+        Yp[n] = yp
+
+    return Yp</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="lab2-task2.vec2str" href="#lab2-task2.vec2str">vec2str</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="lab2-task2.ClassifierChain" href="#lab2-task2.ClassifierChain">ClassifierChain</a></code></h4>
+<ul class="">
+<li><code><a title="lab2-task2.ClassifierChain.base_estimator" href="#lab2-task2.ClassifierChain.base_estimator">base_estimator</a></code></li>
+<li><code><a title="lab2-task2.ClassifierChain.epsilon_approximate_tree_inference" href="#lab2-task2.ClassifierChain.epsilon_approximate_tree_inference">epsilon_approximate_tree_inference</a></code></li>
+<li><code><a title="lab2-task2.ClassifierChain.estimators_" href="#lab2-task2.ClassifierChain.estimators_">estimators_</a></code></li>
+<li><code><a title="lab2-task2.ClassifierChain.fit" href="#lab2-task2.ClassifierChain.fit">fit</a></code></li>
+<li><code><a title="lab2-task2.ClassifierChain.n_labels" href="#lab2-task2.ClassifierChain.n_labels">n_labels</a></code></li>
+<li><code><a title="lab2-task2.ClassifierChain.predict" href="#lab2-task2.ClassifierChain.predict">predict</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
+</footer>
+</body>
+</html>
