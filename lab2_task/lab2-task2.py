@@ -6,8 +6,8 @@ from sklearn.linear_model import LogisticRegression
 
 info = {
         # TODO replace the following Email with your own
-        'Email' : 'firstname.lastname@polytechnique.edu',
-        'Alias' : 'Anonymous', # optional (used only in 'Leaderboard' display)
+        'Email' : 'sacha.braun@polytechnique.edu',
+        'Alias' : 'Sacho', # optional (used only in 'Leaderboard' display)
 }
 
 def vec2str(y):
