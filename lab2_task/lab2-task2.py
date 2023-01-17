@@ -74,48 +74,7 @@ class ClassifierChain() :
         return self
 
     def greedySearch(self, x, y, nodes, edges, p):
-        """ Inference via epsilon-approximate tree-search.
-
-            Provide prediction vector y for input x, via epsilon-approximate 
-            exploration of the probability tree.
-
-            Returns the search tree, as well as final estimate y and its associated probability p. 
-
-            Parameters
-            ----------
-
-            x : array_like (float, ndim=1) of length n_features 
-                test instance
-
-            epsilon : float
-                the value of epsilon considered for the search
-
-
-            Returns
-            -------
-
-            nodes : dict(str,float)
-                where dict[vec2str(y)] = P(y | x)
                 
-            edges : list(tuple(str, str, float))
-                where each tuple (parent node id, child node id, edge value)
-
-            y : array_like(int,ndim=1) array of length n_labels 
-                the prediction for x 
-                (i.e., the goal node)
-
-            p : float
-                the posterior probability P(y | x)
-                i.e., the path value associated with the goal node
-        """
-
-        ###############################################
-        # TODO: Rewrite this function
-        #       Currently this function is implemented as greedy-search
-        #       (equivalent to epsilon >= 0.5), and you should re-write
-        #       it so that it works for any epsilon (between 0 and 1).
-        ###############################################
-        
         xy = x.reshape(1,-1)         # array of shape (n_labels,n_features) is required by sklearn
         xy = np.append(xy, y)
         xy = xy.reshape(1,-1)
@@ -176,12 +135,7 @@ class ClassifierChain() :
                 i.e., the path value associated with the goal node
         """
 
-        ###############################################
-        # TODO: Rewrite this function
-        #       Currently this function is implemented as greedy-search
-        #       (equivalent to epsilon >= 0.5), and you should re-write
-        #       it so that it works for any epsilon (between 0 and 1).
-        ###############################################
+        # initialisation of some objects
 
         nodes = {}                   # nodes map to corresponding value
         edges = []                   # edges are a list of tuples
@@ -190,41 +144,50 @@ class ClassifierChain() :
         
         xy = x.reshape(1,-1)         # array of shape (n_labels,n_features) is required by sklearn
         
-        Q = [[[], 1]]
-        K = []
-        leaf = False
+        Q = [[[], 1]]                # will be filled with nodes with a probability higher then epsilon to be selected (starting from the root)
+        K = []                       # will be filled with nodes with a probability higher then espilon to be selected, bit none of its successors
+        leaf = False                 # to indicate if we reached a leaf when we are out of the 'while'
         
         while True and len(Q) != 0:
             # print(f'Q : {Q}')
             
-            v = Q.pop()
+            v = Q.pop()  #take the node with the highest probability to be selected on Q
         
             # print(f'v = {v}')
-            if len(v[0]) == self.n_labels:
+            if len(v[0]) == self.n_labels:  # if this node is a leaf, we go out
                 leaf = True
                 # print("out by leaf")
                 break
             
-            _y = np.array(v[0])
-            p = v[1]
+            _y = np.array(v[0])   # create an array with all its parents
+            p = v[1]              # take the probability to select this node, starting from the root
             
             # print(f'_y = {_y}')
+            
+            # found the probability to go on each of its sucessors
             if len(_y) == 0:
                 P_j = self.estimators_[len(_y)].predict_proba(xy)[0]
             else : 
                 xy_temp = np.append(xy, _y)
                 xy_temp = xy_temp.reshape(1,-1) 
                 P_j = self.estimators_[len(_y)].predict_proba(xy_temp)[0]
-            p0, p1 = p*P_j[0], p*P_j[1]
+            p0, p1 = p*P_j[0], p*P_j[1]     # the probability for each direct sucessors to arrive in this successor, starting from the root
             
             # print(f"P_j :{P_j}")
             # print(f"p0 = {p0}")
             # print(f"p1 = {p1}")
             
+            # for each successor :
+            # if the probability to arrive on this node starting from the root is higher than epsilon
             if p0 >= epsilon:
+                # we create the full chain
                 _y0 = _y.copy()
                 _y0 = np.append(_y0, 0)
+                
+                # we insert in Q this nodes and its probability (at the right place)
                 Q = self.insert(_y0, p0, Q)
+                
+                # we update the nodes and edges objects
                 nodes[vec2str(_y0)] = p0
                 branch = (vec2str(_y),vec2str(_y0),P_j[0])
                 edges.append(branch)
@@ -236,10 +199,13 @@ class ClassifierChain() :
                 nodes[vec2str(_y1)] = p1
                 branch = (vec2str(_y),vec2str(_y1),P_j[1])
                 edges.append(branch)
-                
+            
+            # if none of its succesor has a probability higher than espilon, we add this node to the object K
             if p1 < epsilon and  p0 < epsilon :
                 K = self.insert(_y, p, K)
-                
+        
+        # if none of the leaf had a probability higher than epsilon, we make a greedySearch 
+        # starting from each node in K, and return the leaf with a higher probability te be attain
         if not leaf:
             epsilon = 0
             while len(K) != 0:
@@ -248,8 +214,11 @@ class ClassifierChain() :
                 if p>epsilon:
                     best_y = y
                     best_p = p
+            # print(f'nodes : {nodes}')
+            # print(f'edges : {edges}')
             return nodes,edges,best_y.astype(int),best_p
-        
+        # print(f'nodes : {nodes}')
+        # print(f'edges : {edges}')
         return nodes,edges,v[0].astype(int),v[1]
             
 
@@ -311,7 +280,7 @@ if __name__ == "__main__":
 
     # Evaluation parameters
     random_state = 0    
-    eps = 0.5  
+    eps = 0.1  
     i_test = 5
     np.random.seed(random_state)    
 
