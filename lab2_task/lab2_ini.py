@@ -73,74 +73,7 @@ class ClassifierChain() :
 
         return self
 
-    def greedySearch(self, x, y, nodes, edges, p):
-        """ Inference via epsilon-approximate tree-search.
-
-            Provide prediction vector y for input x, via epsilon-approximate 
-            exploration of the probability tree.
-
-            Returns the search tree, as well as final estimate y and its associated probability p. 
-
-            Parameters
-            ----------
-
-            x : array_like (float, ndim=1) of length n_features 
-                test instance
-
-            epsilon : float
-                the value of epsilon considered for the search
-
-
-            Returns
-            -------
-
-            nodes : dict(str,float)
-                where dict[vec2str(y)] = P(y | x)
-                
-            edges : list(tuple(str, str, float))
-                where each tuple (parent node id, child node id, edge value)
-
-            y : array_like(int,ndim=1) array of length n_labels 
-                the prediction for x 
-                (i.e., the goal node)
-
-            p : float
-                the posterior probability P(y | x)
-                i.e., the path value associated with the goal node
-        """
-
-        ###############################################
-        # TODO: Rewrite this function
-        #       Currently this function is implemented as greedy-search
-        #       (equivalent to epsilon >= 0.5), and you should re-write
-        #       it so that it works for any epsilon (between 0 and 1).
-        ###############################################
-        
-        xy = x.reshape(1,-1)         # array of shape (n_labels,n_features) is required by sklearn
-        xy = np.append(xy, y)
-        xy = xy.reshape(1,-1)
-        
-        len_ini = len(y)
-        
-        for j in range(len_ini,self.n_labels):
-            if j>len_ini:
-                # stack the previous y as an additional feature
-                xy = np.column_stack([xy, y[j-1]])
-            # P_j := P(y[j]|x,y[1],...,y[j-1])
-            
-            P_j = self.estimators_[j].predict_proba(xy)[0] # (N.B. [0], because it is the first and only row)
-            k = np.argmax(P_j)
-            y = np.append(y,k)
-            
-            p = p * P_j[k]
-
-            branch = (vec2str(y[0:j]),vec2str(y[0:j+1]),P_j[k])
-            edges.append(branch)
-            nodes[vec2str(y[0:j+1])] = p
-
-        return nodes,edges,y.astype(int),p
-    
-    def epsilon_approximate_tree_inference(self, x, epsilon=0.05):
+    def epsilon_approximate_tree_inference(self, x, epsilon=0.5):
         """ Inference via epsilon-approximate tree-search.
 
             Provide prediction vector y for input x, via epsilon-approximate 
@@ -187,83 +120,25 @@ class ClassifierChain() :
         edges = []                   # edges are a list of tuples
         y = np.zeros(self.n_labels)  # an array to store labels (best path)
         p = 1.                       # path score 'so far'
-        
         xy = x.reshape(1,-1)         # array of shape (n_labels,n_features) is required by sklearn
         
-        Q = [[[], 1]]
-        K = []
-        leaf = False
-        
-        while True and len(Q) != 0:
-            # print(f'Q : {Q}')
-            
-            v = Q.pop()
-        
-            # print(f'v = {v}')
-            if len(v[0]) == self.n_labels:
-                leaf = True
-                # print("out by leaf")
-                break
-            
-            _y = np.array(v[0])
-            p = v[1]
-            
-            # print(f'_y = {_y}')
-            if len(_y) == 0:
-                P_j = self.estimators_[len(_y)].predict_proba(xy)[0]
-            else : 
-                xy_temp = np.append(xy, _y)
-                xy_temp = xy_temp.reshape(1,-1) 
-                P_j = self.estimators_[len(_y)].predict_proba(xy_temp)[0]
-            p0, p1 = p*P_j[0], p*P_j[1]
-            
-            # print(f"P_j :{P_j}")
-            # print(f"p0 = {p0}")
-            # print(f"p1 = {p1}")
-            
-            if p0 >= epsilon:
-                _y0 = _y.copy()
-                _y0 = np.append(_y0, 0)
-                Q = self.insert(_y0, p0, Q)
-                nodes[vec2str(_y0)] = p0
-                branch = (vec2str(_y),vec2str(_y0),P_j[0])
-                edges.append(branch)
-                
-            if p1 >= epsilon:
-                _y1 = _y.copy()
-                _y1 = np.append(_y1, 1)
-                Q = self.insert(_y1, p1, Q)
-                nodes[vec2str(_y1)] = p1
-                branch = (vec2str(_y),vec2str(_y1),P_j[1])
-                edges.append(branch)
-                
-            if p1 < epsilon and  p0 < epsilon :
-                K = self.insert(_y, p, K)
-                
-        if not leaf:
-            epsilon = 0
-            while len(K) != 0:
-                w, p = K.pop()
-                nodes,edges,y,p = self.greedySearch(xy, w,nodes, edges, p)
-                if p>epsilon:
-                    best_y = y
-                    best_p = p
-            return nodes,edges,best_y.astype(int),best_p
-        
-        return nodes,edges,v[0].astype(int),v[1]
-            
+        for j in range(self.n_labels):
+            if j>0:
+                # stack the previous y as an additional feature
+                xy = np.column_stack([xy, y[j-1]])
+            # P_j := P(y[j]|x,y[1],...,y[j-1])
+            P_j = self.estimators_[j].predict_proba(xy)[0] # (N.B. [0], because it is the first and only row)
+            k = np.argmax(P_j)
+            y[j] = k
+            p = p * P_j[k]
 
-    def insert(self, v, p , Q):
-        if len(Q)==0:
-            Q.append([v,p])
-            return Q
-        for i in range(len(Q)):
-            if Q[i][1] >= p:
-                Q.insert(i, [v,p])
-                return Q
-        Q.append([v,p])
-        return Q               
-                
+            branch = (vec2str(y[0:j]),vec2str(y[0:j+1]),P_j[k])
+            edges.append(branch)
+            nodes[vec2str(y[0:j+1])] = p
+
+        return nodes,edges,y.astype(int),p
+
+
 #  
 
     def predict(self, X, epsilon=0.5):
@@ -311,7 +186,7 @@ if __name__ == "__main__":
 
     # Evaluation parameters
     random_state = 0    
-    eps = 0.5  
+    eps = 0.2      
     i_test = 5
     np.random.seed(random_state)    
 
@@ -360,5 +235,4 @@ if __name__ == "__main__":
     for e in edges:
         G.edge(e[0],e[1],"%3.2f" % e[2])
     G.render(engine='dot', format='pdf', outfile='inference.pdf', view=True)
-
 
