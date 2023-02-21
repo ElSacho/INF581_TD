@@ -1,0 +1,8 @@
+gym
+gymnasium
+imageio
+numpy
+pandas
+seaborn
+nnfigs
+inf581
