@@ -130,7 +130,6 @@ class ConditionalDependencyNetwork:
         n_instances,n_features = X.shape
         self.n_outputs = Y.shape[1]
         for j in range( self.n_outputs):
-            print(self._markov_blanket(j))
             # Markov blanket of j
             Yj = Y[:,self._markov_blanket(j)] 
             # ... append to X
@@ -208,11 +207,10 @@ class ConditionalDependencyNetwork:
             for key in dist:
                 dist[key] /= n_iterations - n_burnin
         
-        print("dist cree")
+        # print("dist cree")
         return dist
     
         
-
     def predict_proba_x(self, x, kind='marginal', y_samples=None):
         '''
             Predict y | x (along with posterior probability dist p(y|x).
@@ -261,37 +259,35 @@ class ConditionalDependencyNetwork:
             p_dist[sample_str] = sample_freq / n_samples
 
         if kind == 'joint':
-            return None, None, p_dist
+
+            max_key = max(p_dist, key=p_dist.get)
+            max_value = p_dist[max_key]
+            
+            return max_key, max_value, p_dist
         else:
             # Calculate the marginal probabilities of each y_i
             p_marginal = {}
+            y_argmax = np.zeros(self.n_outputs)
+            p_total = 1
             for i in range(self.n_outputs):
                 p_i = 0
                 for sample_str, sample_prob in p_dist.items():
                     sample = str2vec(sample_str)
-                    print(sample)
-                    p_i += sample[i] * sample_prob
-                p_marginal[i] = p_i
-            print(p_marginal)
-
-            # Calculate the prediction
-            y_argmax = np.zeros(self.n_outputs, dtype=int)
-            p_max = 0
-            for sample_str, sample_prob in p_dist.items():
-                sample = str2vec(sample_str)
-                p_yx = self._probability(sample, x)
-                if p_yx > p_max:
-                    y_argmax = sample
-                    p_max = p_yx
-
-            return y_argmax, p_max, p_marginal
+                    p_i += sample[i] * sample_prob # sum of the proba if the sample[i] == 1
+                p_marginal[i] = p_i # the proba to be equal to one
+                if p_i > 0.5:
+                    y_argmax[i] = 1
+                    p_total *= p_i
+                else :
+                    p_total *= (1-p_i)
+            y_argmax = list(map(int, y_argmax))
+            return y_argmax, p_total, p_marginal
 
 
-        
 
 def generate_data():
     # Load and prepare some data
-    df = pd.read_csv("/Users/potosacho/Desktop/Polytechnique/3A/P2/INF581/INF581_TD/lab_task/music.csv")
+    df = pd.read_csv("music.csv")
     Data = df.values[:,:].astype(float)
     np.random.shuffle(Data)
     # Set an adjacency matrix (for Y)
@@ -324,7 +320,7 @@ if __name__ == '__main__':
     print("True:       ", Y_test[0])
 
     samples = h.gibbs_sampling(X_test[0])
-    print("samples ok")
+
     Y_pred_marg, P_pred_marg, dist_marg = h.predict_proba_x(X_test[0],kind='marginal',y_samples=samples)
     print("P(%s) = %s" % (Y_pred_marg,P_pred_marg))
     #plt.bar(list(dist_marg.keys()), dist_marg.values(), color='g')
